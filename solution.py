@@ -1,14 +1,34 @@
 from typing import List
 
+import pandas as pd
+# optional for testing
+pd.set_option('display.max_rows', None)
+pd.set_option('display.max_columns', None)
+
+import numpy as np
+import argparse
+
 
 class Solution:
     def __init__(self, data_file_path: str, protocol_json_path: str):
         self.data_file_path = data_file_path
         self.protocol_json_path = protocol_json_path
+        
+        self.data_file = pd.read_csv(self.data_file_path)
+        self.protocol = pd.read_json(self.protocol_json_path)
 
     # Question 1: What is the version name used in the communication session?
+    # the first message is the version name in the communication sesson
     def q1(self) -> str:
-        pass
+        protocol_identifier = self.data_file.keys()[2]
+        
+
+        print("")
+        print(self.protocol[self.protocol['protocols_by_version']])
+        #print(self.data_file.keys()[2])
+        #print(self.data_file)
+        #print(self.protocol)
+        
 
     # Question 2: Which protocols have wrong messages frequency in the session compared to their expected frequency based on FPS?
     def q2(self) -> List[str]:
@@ -29,3 +49,54 @@ class Solution:
     # Question 6: Which protocols are marked as non dynamic_size in protocol.json, but appear with inconsistent expected message sizes Integer in the data file?
     def q6(self) -> List[str]:
         pass
+
+def main(data_file_path: str, protocol_json_path: str):
+    solution = Solution(data_file_path, protocol_json_path)
+    while True:
+        print("\nAvailable functions:")
+        print("1. q1")
+        print("2. q2")
+        print("3. q3")
+        print("4. q4")
+        print("5. q5")
+        print("6. q6")
+        print("x. Quit")
+
+        choice = input("Enter function num to run or 'x' to quit :")
+        if choice == '1':
+            solution.q1()
+            break
+        elif choice == '2':
+            solution.q2()
+            break
+        elif choice == '3':
+            solution.q3()
+            break
+        elif choice == '4':
+            solution.q4()
+            break
+        elif choice == '5':
+            solution.q5()
+            break
+        elif choice == '6':
+            solution.q6()
+            break
+        elif choice == 'x':
+            print("Exiting the program.")
+            break
+        else:
+            print("Invalid choice, try again")
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="Run functions with file path")
+    parser.add_argument('data_file_path', type=str,help="Path to the fata file")
+    parser.add_argument('protocol_json_path', type=str,help="Path to the protocol file")
+    args = parser.parse_args()
+    main(args.data_file_path, args.protocol_json_path)
+
+
+"""
+running :
+python solution.py data.txt protocol.json
+"""
