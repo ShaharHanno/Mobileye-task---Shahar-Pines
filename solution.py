@@ -5,7 +5,6 @@ import pandas as pd
 pd.set_option('display.max_rows', None)
 pd.set_option('display.max_columns', None)
 
-import numpy as np
 import argparse
 
 
@@ -18,16 +17,28 @@ class Solution:
         self.protocol = pd.read_json(self.protocol_json_path)
 
     # Question 1: What is the version name used in the communication session?
+
     # the first message is the version name in the communication sesson
+    # need to identify the first line, then the protocol name and then
+    # to get the version name from protocol json file. 
     def q1(self) -> str:
-        protocol_identifier = self.data_file.keys()[2]
+        protocol_identifier = self.data_file.keys()[2] # identifies the first header line and then took the protocol from the file.
+        #print(protocol_identifier)
+        #print(type(protocol_identifier))
+        
+        versions = self.protocol.iloc[:2,0] # first part that represents the versions+ details
+
+        
+        # Here i tried to extract the version name from protocol df according to the found value
+        def find_version(df, search_value):
+            for index, row in df.iterrows():
+                if search_value in row['protocols']:
+                    return row['protocols_by_version']
+            return None
+        found_ver = find_version(self.protocol, protocol_identifier)
+        print(found_ver)
         
 
-        print("")
-        print(self.protocol[self.protocol['protocols_by_version']])
-        #print(self.data_file.keys()[2])
-        #print(self.data_file)
-        #print(self.protocol)
         
 
     # Question 2: Which protocols have wrong messages frequency in the session compared to their expected frequency based on FPS?
