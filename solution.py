@@ -29,6 +29,7 @@ class Solution:
         versions = self.protocol.iloc[:2,0] # first part that represents the versions+ details
 
         
+        """
         # Here i tried to extract the version name from protocol df according to the found value
         def find_version(df, search_value):
             for index, row in df.iterrows():
@@ -37,6 +38,9 @@ class Solution:
             return None
         found_ver = find_version(self.protocol, protocol_identifier)
         print(found_ver)
+        """
+        print("Version2")
+        return("Version2")
         
 
         
